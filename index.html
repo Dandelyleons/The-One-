@@ -102,6 +102,11 @@
   .section.dark .eyebrow{ color:var(--st); }
   .section-head{ max-width:44ch; margin-bottom:clamp(28px,4vw,52px); }
   .section-head p{ margin-bottom:0; }
+  @media (min-width:1024px){
+    .section-head{ max-width:none; }
+    .section-head .t-h2{ max-width:none; }
+    .section-head .t-lede{ max-width:90ch; }
+  }
 
   /* ===================== BUTTONS (touch-first: min 48px) ===================== */
   .btn{
@@ -344,13 +349,13 @@
   .pcard.st .pcard-badge{ color:var(--st-ink); }
   .pcard-logo{
     position:absolute; right:12px; bottom:12px; z-index:2; width:52px; height:62px;
-    filter:drop-shadow(0 2px 10px rgba(0,0,0,.5));
+    filter:drop-shadow(0 0 1.5px rgba(255,255,255,.95)) drop-shadow(0 0 8px rgba(255,255,255,.7)) drop-shadow(0 1px 3px rgba(120,120,120,.4));
   }
   .pcard-logo img{ width:100%; height:100%; object-fit:contain; }
   .dhero-logo{ display:block; width:min(260px,74%); margin:0 0 18px; }
   .dhero-logo img{
     width:100%; height:auto;
-    filter:drop-shadow(0 3px 16px rgba(0,0,0,.5));
+    filter:drop-shadow(0 0 2px rgba(255,255,255,.95)) drop-shadow(0 0 14px rgba(255,255,255,.6)) drop-shadow(0 2px 6px rgba(120,120,120,.4));
   }
   .pcard-body{ padding:18px 18px 20px; border-top:3px solid var(--c); display:flex; flex-direction:column; flex:1; gap:6px; }
   .pcard-loc{
@@ -589,7 +594,7 @@
     border:1px solid rgba(255,255,255,.3); color:#fff; font-size:1.25rem; cursor:pointer; display:grid; place-items:center;
   }
   .lb-stage{ flex:1; display:grid; place-items:center; min-height:0; padding:12px 0; }
-  .lb-frame{ width:100%; max-width:1000px; aspect-ratio:4/3; max-height:100%; border-radius:var(--r-md); }
+  .lb-frame{ width:100%; max-width:1400px; aspect-ratio:4/3; max-height:100%; border-radius:var(--r-md); }
   .lb-bar{ display:flex; align-items:center; justify-content:space-between; gap:14px; color:#fff; }
   .lb-bar button{
     width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,.12);
@@ -881,6 +886,7 @@
       <a href="#reviews">Reviews</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
+      <a href="#" id="payOnline">Pay Online</a>
     </nav>
     <button class="btn btn-primary hdr-cta" type="button" data-inquire="">Inquire</button>
     <button class="burger" type="button" id="burger" aria-expanded="false" aria-controls="drawer">
@@ -908,6 +914,7 @@
     <a href="#reviews">Reviews <span aria-hidden="true">→</span></a>
     <a href="#about">About <span aria-hidden="true">→</span></a>
     <a href="#contact">Contact <span aria-hidden="true">→</span></a>
+    <a href="#">Pay Online <span aria-hidden="true">→</span></a>
   </nav>
   <div class="drawer-foot">
     <button class="btn btn-primary" type="button" data-inquire="">Check Availability</button>
@@ -948,10 +955,9 @@
               <label for="f-budget">Monthly budget</label>
               <select id="f-budget" name="budget">
                 <option value="any">Any budget</option>
-                <option value="0-9000">Up to ₱9,000</option>
                 <option value="9000-12000">₱9,000 – ₱12,000</option>
-                <option value="12000-16000">₱12,000 – ₱16,000</option>
-                <option value="16000-999999">₱16,000+</option>
+                <option value="13000-16000">₱13,000 – ₱16,000</option>
+                <option value="17000-999999">₱17,000+</option>
               </select>
             </div>
             <button class="btn btn-primary btn-full" type="submit">Find My Home</button>
@@ -984,7 +990,7 @@
             </div>
             <div class="pcard-body">
               <p class="pcard-loc">870 M.F. Jhocson</p>
-              <h3>Santo Tomas</h3>
+              <h3>The One Santo Tomas</h3>
               <p class="pcard-desc">Direct footbridge into the University of Santo Tomas, five minutes from FEU and UE Manila.</p>
               <p class="pcard-go">Explore <i aria-hidden="true">→</i></p>
             </div>
@@ -997,7 +1003,7 @@
             </div>
             <div class="pcard-body">
               <p class="pcard-loc">1218 Governor Forbes</p>
-              <h3>Richville Place</h3>
+              <h3>The One Richville Place</h3>
               <p class="pcard-desc">Beside UST Hospital, close to Perpetual Help College Manila and UST Angelicum College.</p>
               <p class="pcard-go">Explore <i aria-hidden="true">→</i></p>
             </div>
@@ -1010,7 +1016,7 @@
             </div>
             <div class="pcard-body">
               <p class="pcard-loc">838 Padre Campa St</p>
-              <h3>Padre Campa</h3>
+              <h3>The One Padre Campa</h3>
               <p class="pcard-desc">A five-minute walk to Far Eastern University, also within reach of UE Manila and UST.</p>
               <p class="pcard-go">Explore <i aria-hidden="true">→</i></p>
             </div>
@@ -1023,7 +1029,7 @@
             </div>
             <div class="pcard-body">
               <p class="pcard-loc">Dasmariñas, Cavite</p>
-              <h3>Dasma Place</h3>
+              <h3>The One Dasma Place</h3>
               <p class="pcard-desc">Near University De La Salle Medical Center and De La Salle College of Medicine.</p>
               <p class="pcard-go">Explore <i aria-hidden="true">→</i></p>
             </div>
@@ -1053,15 +1059,15 @@
         <div class="map-shell">
           <div class="map-scroll" tabindex="0" role="group" aria-label="Map of all four The One properties and the universities nearest each one">
             <figure class="map-frame">
-              <img class="map-img" src="photos/web/sitemap.jpg" alt="Map of The One Properties: Santo Tomas, Richville Place and Padre Campa in Sampaloc, Manila, and Dasma Place in Dasmariñas, Cavite, with nearby universities and schools for each">
+              <img class="map-img" src="photos/web/sitemap-v2.jpg" id="mapImg" role="button" tabindex="0" style="cursor:zoom-in" alt="Map of The One Properties: Santo Tomas, Richville Place and Padre Campa in Sampaloc, Manila, and Dasma Place in Dasmariñas, Cavite, with nearby universities and schools for each">
             </figure>
           </div>
-          <p class="map-open"><a href="photos/web/sitemap.jpg" target="_blank" rel="noopener">Open full-size map <span aria-hidden="true">↗</span></a></p>
+          <p class="map-open"><a href="#map" id="mapOpen">View full-size map <span aria-hidden="true">↗</span></a></p>
           <ul class="map-legend">
-            <li><a href="#/santotomas"><i style="background:var(--st)" aria-hidden="true"></i><span>Santo Tomas<small>870 M.F. Jhocson, Manila</small></span></a></li>
-            <li><a href="#/richville"><i style="background:var(--rv)" aria-hidden="true"></i><span>Richville Place<small>1218 Governor Forbes, Manila</small></span></a></li>
-            <li><a href="#/padrecampa"><i style="background:var(--pc)" aria-hidden="true"></i><span>Padre Campa<small>838 Padre Campa St, Manila</small></span></a></li>
-            <li><a href="#/dasmaplace"><i style="background:var(--dp)" aria-hidden="true"></i><span>Dasma Place<small>Dasmariñas, Cavite</small></span></a></li>
+            <li><a href="#/santotomas"><i style="background:var(--st)" aria-hidden="true"></i><span>The One Santo Tomas<small>870 M.F. Jhocson, Manila</small></span></a></li>
+            <li><a href="#/richville"><i style="background:var(--rv)" aria-hidden="true"></i><span>The One Richville Place<small>1218 Governor Forbes, Manila</small></span></a></li>
+            <li><a href="#/padrecampa"><i style="background:var(--pc)" aria-hidden="true"></i><span>The One Padre Campa<small>838 Padre Campa St, Manila</small></span></a></li>
+            <li><a href="#/dasmaplace"><i style="background:var(--dp)" aria-hidden="true"></i><span>The One Dasma Place<small>Dasmariñas, Cavite</small></span></a></li>
           </ul>
         </div>
       </div>
@@ -1072,14 +1078,14 @@
         <div class="section-head">
           <p class="eyebrow">Best For Your Lifestyle</p>
           <h2 class="t-h2" id="lifeH">Shared spaces for study weeks and everything after</h2>
-          <p class="t-lede">Every community shares the same standard of amenities. Availability varies slightly by property.</p>
+          <p class="t-lede">Every community is equipped with quality facilities designed to complement a balanced lifestyle, offering spaces for comfort, wellness, and everyday living.</p>
         </div>
         <div class="amen-rail">
-          <a class="amen" href="#find-your-home"><img class="shot" src="photos/web/st-pool.jpg" alt="Swimming pool" loading="lazy"><span class="amen-label">Swimming Pool<small>Santo Tomas</small></span></a>
-          <a class="amen" href="#find-your-home"><img class="shot" src="photos/web/dp-g2.jpg" alt="Fitness gym" loading="lazy"><span class="amen-label">Fitness Gym<small>Dasma Place</small></span></a>
-          <a class="amen" href="#find-your-home"><img class="shot" src="photos/web/st-study.jpg" alt="Study area" loading="lazy"><span class="amen-label">Study Area<small>Santo Tomas</small></span></a>
-          <a class="amen" href="#find-your-home"><img class="shot" src="photos/web/st-lobby.jpg" alt="Lobby and reception" loading="lazy"><span class="amen-label">Lobby &amp; Reception<small>Santo Tomas</small></span></a>
-          <a class="amen" href="#find-your-home"><img class="shot" src="photos/web/st-chapel.jpg" alt="Chapel" loading="lazy"><span class="amen-label">Chapel<small>Santo Tomas</small></span></a>
+          <a class="amen" href="#lifestyle" data-amen="0" aria-label="View Swimming pool at The One Santo Tomas full size"><img class="shot" src="photos/web/st-pool.jpg" alt="Swimming pool at The One Santo Tomas" loading="lazy"><span class="amen-label">Swimming Pool<small>The One Santo Tomas</small></span></a>
+          <a class="amen" href="#lifestyle" data-amen="1" aria-label="View Fitness gym at The One Dasma Place full size"><img class="shot" src="photos/web/dp-g2.jpg" alt="Fitness gym at The One Dasma Place" loading="lazy"><span class="amen-label">Fitness Gym<small>The One Dasma Place</small></span></a>
+          <a class="amen" href="#lifestyle" data-amen="2" aria-label="View Study area at The One Santo Tomas full size"><img class="shot" src="photos/web/st-study.jpg" alt="Study area at The One Santo Tomas" loading="lazy"><span class="amen-label">Study Area<small>The One Santo Tomas</small></span></a>
+          <a class="amen" href="#lifestyle" data-amen="3" aria-label="View Lobby and reception at The One Santo Tomas full size"><img class="shot" src="photos/web/st-lobby.jpg" alt="Lobby and reception at The One Santo Tomas" loading="lazy"><span class="amen-label">Lobby &amp; Reception<small>The One Santo Tomas</small></span></a>
+          <a class="amen" href="#lifestyle" data-amen="4" aria-label="View Chapel at The One Santo Tomas full size"><img class="shot" src="photos/web/st-chapel.jpg" alt="Chapel at The One Santo Tomas" loading="lazy"><span class="amen-label">Chapel<small>The One Santo Tomas</small></span></a>
         </div>
         <p class="rail-hint"><span aria-hidden="true">→</span> Swipe for more amenities</p>
       </div>
@@ -1136,7 +1142,7 @@
           <div class="about-media"><img class="shot" src="photos/web/st-lobby2.jpg" alt="Residents in a shared lounge at The One" loading="lazy"></div>
           <div class="about-copy">
             <p class="eyebrow">About The One</p>
-            <h2 class="t-h2" id="aboutH">20 years of property management</h2>
+            <h2 class="t-h2" id="aboutH">More than 20 years of property management</h2>
             <p>With the aim of uplifting residential living with value for money in mind, Richville Federated Group of Companies continues to grow and develop communities today. The One operates four residence communities across Manila and Cavite, each sited for walking or footbridge access to a major university.</p>
             <div class="about-stats">
               <div><b>20</b><span>Years managing residences</span></div>
@@ -1361,7 +1367,7 @@
 
 <div class="lightbox" id="lightbox" hidden="{{ true }}" role="dialog" aria-modal="true" aria-label="Gallery viewer">
   <div class="lb-top"><button class="lb-close" type="button" id="lbClose" aria-label="Close gallery">✕</button></div>
-  <div class="lb-stage"><div class="lb-frame" id="lbFrame" style="position:relative;overflow:hidden;background:#241d1b"><img class="shot" id="lbImg" alt=""></div></div>
+  <div class="lb-stage"><div class="lb-frame" id="lbFrame" style="position:relative;overflow:hidden;background:#241d1b"><img class="shot" id="lbImg" alt="" style="object-fit:contain"></div></div>
   <div class="lb-bar">
     <button type="button" id="lbPrev" aria-label="Previous image">‹</button>
     <p class="lb-meta"><b id="lbTitle">Image</b><span id="lbCount">1 / 6</span></p>
@@ -1780,10 +1786,22 @@ class Component extends DCLogic {
       q('#lbImg').alt = g.title;
       q('#lbTitle').textContent = g.title;
       q('#lbCount').textContent = (lbIdx + 1) + ' / ' + lbSet.length;
+      q('#lbFrame').style.aspectRatio = g.ratio || '';
+      const multi = lbSet.length > 1;
+      q('#lbPrev').style.visibility = multi ? '' : 'hidden';
+      q('#lbNext').style.visibility = multi ? '' : 'hidden';
+      q('#lbCount').style.display = multi ? '' : 'none';
     };
     const openLb = (i) => { lbIdx = i; paintLb(); lb.hidden = false; doc.body.style.overflow = 'hidden'; q('#lbClose').focus(); };
     const closeLb = () => { lb.hidden = true; doc.body.style.overflow = ''; };
     q('#lbClose').addEventListener('click', closeLb);
+    lb.addEventListener('click', ev => { if(ev.target === lb || ev.target.classList.contains('lb-stage')) closeLb(); });
+    const AMEN_SET = qa('[data-amen]').map(a => ({ src: a.querySelector('img').getAttribute('src'), title: a.querySelector('.amen-label').firstChild.textContent + ' · ' + a.querySelector('small').textContent }));
+    qa('[data-amen]').forEach(a => a.addEventListener('click', ev => { ev.preventDefault(); lbSet = AMEN_SET; openLb(Number(a.dataset.amen)); }));
+    const MAP_SET = [{ src: 'photos/web/sitemap-v2.jpg', title: 'The One Properties map', ratio: '16 / 9' }];
+    const openMap = ev => { ev.preventDefault(); lbSet = MAP_SET; openLb(0); };
+    q('#mapOpen') && q('#mapOpen').addEventListener('click', openMap);
+    if(q('#mapImg')){ q('#mapImg').addEventListener('click', openMap); q('#mapImg').addEventListener('keydown', ev => { if(ev.key === 'Enter' || ev.key === ' ') openMap(ev); }); }
     q('#lbPrev').addEventListener('click', () => { lbIdx = (lbIdx - 1 + lbSet.length) % lbSet.length; paintLb(); });
     q('#lbNext').addEventListener('click', () => { lbIdx = (lbIdx + 1) % lbSet.length; paintLb(); });
     let touchX = null;
