@@ -389,6 +389,12 @@
     font-size:1rem; appearance:none;
   }
   .field.sel{ position:relative; }
+  .field.sel select{
+    padding-right:40px; text-overflow:ellipsis;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236b5a57' stroke-width='1.8'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 16px center;
+  }
+  .field.sel::after{ display:none; }
   .field.sel::after{
     content:"▾"; position:absolute; right:16px; bottom:16px; pointer-events:none;
     color:var(--ink-soft); font-size:.8rem;
@@ -505,6 +511,15 @@
   .map-img{ position:absolute; inset:0; width:100%; height:100%; max-width:none; object-fit:cover; object-position:center; }
   @media (min-width:900px){ .map-frame{ min-width:0; } }
   .map-open{ margin:10px 0 0; font-size:.82rem; }
+  .map-spot{ position:absolute; z-index:2; border-radius:14px; outline:2px solid transparent; transition:background .2s, outline-color .2s; }
+  .map-spot span{
+    position:absolute; left:50%; bottom:8px; transform:translateX(-50%); white-space:nowrap;
+    background:var(--brand-dark,#463634); color:#fff; font-size:.72rem; font-weight:600; padding:5px 10px; border-radius:100px;
+    opacity:0; transition:opacity .2s; pointer-events:none;
+  }
+  .map-spot:hover,.map-spot:focus-visible{ background:rgba(254,190,16,.12); outline-color:rgba(201,105,0,.55); }
+  .map-spot:hover span,.map-spot:focus-visible span{ opacity:1; }
+  @media (hover:none){ .map-spot span{ opacity:.92; font-size:.62rem; padding:3px 8px; } }
   .map-open a{ color:var(--ink-soft); font-weight:600; }
   .map-open a:hover{ color:var(--accent); }
   .ov-pin{ cursor:pointer; }
@@ -942,14 +957,12 @@
         <div class="hero-finder">
           <p class="hero-finder-head">Find your home in two steps</p>
           <form class="finder-form" id="finderForm">
-            <div class="field">
-              <label for="msBtn" id="msLabel">Location / Schools</label>
-              <div class="ms" id="ms" data-open="false">
-                <button class="ms-btn" type="button" id="msBtn" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="msLabel msBtn">
-                  <span id="msBtnText">Any location</span>
-                </button>
-                <div class="ms-panel" id="msPanel" role="listbox" aria-multiselectable="true" aria-label="Location and nearby schools" hidden="{{ true }}"></div>
-              </div>
+            <div class="field sel">
+              <label for="f-loc">Location / Schools</label>
+              <select id="f-loc" name="location" aria-describedby="f-loc-hint">
+                <option value="any">Any location</option>
+              </select>
+              <small id="f-loc-hint" hidden="{{ true }}" style="display:block; margin-top:6px; font-size:.78rem; line-height:1.35; color:var(--ink-soft)"></small>
             </div>
             <div class="field sel">
               <label for="f-budget">Monthly budget</label>
@@ -961,7 +974,6 @@
               </select>
             </div>
             <button class="btn btn-primary btn-full" type="submit">Find My Home</button>
-            <div class="ms-chips" id="msChips"></div>
           </form>
         </div>
       </div>
@@ -1060,14 +1072,18 @@
           <div class="map-scroll" tabindex="0" role="group" aria-label="Map of all four The One properties and the universities nearest each one">
             <figure class="map-frame">
               <img class="map-img" src="photos/web/sitemap-v2.jpg" id="mapImg" role="button" tabindex="0" style="cursor:zoom-in" alt="Map of The One Properties: Santo Tomas, Richville Place and Padre Campa in Sampaloc, Manila, and Dasma Place in Dasmariñas, Cavite, with nearby universities and schools for each">
+              <a class="map-spot" href="https://www.google.com/maps/search/?api=1&amp;query=The%20One%20Santo%20Tomas%2C%20870%20M.F.%20Jhocson%2C%20Sampaloc%2C%20Manila" target="_blank" rel="noopener" aria-label="Open The One Santo Tomas in Google Maps (new tab)" style="left:42.45%; top:11.57%; width:23.44%; height:24.07%"><span>Open in Google Maps ↗</span></a>
+              <a class="map-spot" href="https://www.google.com/maps/search/?api=1&amp;query=The%20One%20Richville%20Place%2C%201218%20Governor%20Forbes%2C%20Sampaloc%2C%20Manila" target="_blank" rel="noopener" aria-label="Open The One Richville Place in Google Maps (new tab)" style="left:69.53%; top:3.24%; width:27.60%; height:25.00%"><span>Open in Google Maps ↗</span></a>
+              <a class="map-spot" href="https://www.google.com/maps/search/?api=1&amp;query=The%20One%20Padre%20Campa%2C%20838%20Padre%20Campa%20St%2C%20Sampaloc%2C%20Manila" target="_blank" rel="noopener" aria-label="Open The One Padre Campa in Google Maps (new tab)" style="left:69.53%; top:30.56%; width:27.60%; height:25.46%"><span>Open in Google Maps ↗</span></a>
+              <a class="map-spot" href="https://www.google.com/maps/search/?api=1&amp;query=The%20One%20Dasma%20Place%2C%20Dasmari%C3%B1as%2C%20Cavite" target="_blank" rel="noopener" aria-label="Open The One Dasma Place in Google Maps (new tab)" style="left:1.30%; top:53.24%; width:29.17%; height:30.56%"><span>Open in Google Maps ↗</span></a>
             </figure>
           </div>
           <p class="map-open"><a href="#map" id="mapOpen">View full-size map <span aria-hidden="true">↗</span></a></p>
           <ul class="map-legend">
-            <li><a href="#/santotomas"><i style="background:var(--st)" aria-hidden="true"></i><span>The One Santo Tomas<small>870 M.F. Jhocson, Manila</small></span></a></li>
-            <li><a href="#/richville"><i style="background:var(--rv)" aria-hidden="true"></i><span>The One Richville Place<small>1218 Governor Forbes, Manila</small></span></a></li>
-            <li><a href="#/padrecampa"><i style="background:var(--pc)" aria-hidden="true"></i><span>The One Padre Campa<small>838 Padre Campa St, Manila</small></span></a></li>
-            <li><a href="#/dasmaplace"><i style="background:var(--dp)" aria-hidden="true"></i><span>The One Dasma Place<small>Dasmariñas, Cavite</small></span></a></li>
+            <li><a href="https://www.google.com/maps/search/?api=1&amp;query=The%20One%20Santo%20Tomas%2C%20870%20M.F.%20Jhocson%2C%20Sampaloc%2C%20Manila" target="_blank" rel="noopener" aria-label="Open The One Santo Tomas in Google Maps (new tab)"><i style="background:var(--st)" aria-hidden="true"></i><span>The One Santo Tomas<small>870 M.F. Jhocson, Manila</small></span></a></li>
+            <li><a href="https://www.google.com/maps/search/?api=1&amp;query=The%20One%20Richville%20Place%2C%201218%20Governor%20Forbes%2C%20Sampaloc%2C%20Manila" target="_blank" rel="noopener" aria-label="Open The One Richville Place in Google Maps (new tab)"><i style="background:var(--rv)" aria-hidden="true"></i><span>The One Richville Place<small>1218 Governor Forbes, Manila</small></span></a></li>
+            <li><a href="https://www.google.com/maps/search/?api=1&amp;query=The%20One%20Padre%20Campa%2C%20838%20Padre%20Campa%20St%2C%20Sampaloc%2C%20Manila" target="_blank" rel="noopener" aria-label="Open The One Padre Campa in Google Maps (new tab)"><i style="background:var(--pc)" aria-hidden="true"></i><span>The One Padre Campa<small>838 Padre Campa St, Manila</small></span></a></li>
+            <li><a href="https://www.google.com/maps/search/?api=1&amp;query=The%20One%20Dasma%20Place%2C%20Dasmari%C3%B1as%2C%20Cavite" target="_blank" rel="noopener" aria-label="Open The One Dasma Place in Google Maps (new tab)"><i style="background:var(--dp)" aria-hidden="true"></i><span>The One Dasma Place<small>Dasmariñas, Cavite</small></span></a></li>
           </ul>
         </div>
       </div>
@@ -1337,14 +1353,14 @@
           <select id="ftrProp">
             <option value="">Select a property</option>
             <optgroup label="España, Manila">
-              <option value="santotomas">Santo Tomas (UST, FEU and UE Manila)</option>
+              <option value="santotomas">The One Santo Tomas (UST, FEU and UE Manila)</option>
             </optgroup>
             <optgroup label="Sampaloc, Manila">
-              <option value="richville">Richville Place (UST, Perpetual Help College Manila and UST Angelicum College)</option>
-              <option value="padrecampa">Padre Campa (FEU, UE Manila and UST)</option>
+              <option value="richville">The One Richville Place (UST, Perpetual Help College Manila and UST Angelicum College)</option>
+              <option value="padrecampa">The One Padre Campa (FEU, UE Manila and UST)</option>
             </optgroup>
             <optgroup label="Dasmariñas, Cavite">
-              <option value="dasmaplace">Dasma Place (UDLS Medical Center and DLS College of Medicine)</option>
+              <option value="dasmaplace">The One Dasma Place (UDLS Medical Center and DLS College of Medicine)</option>
             </optgroup>
           </select>
           <button class="btn btn-primary" type="button" id="ftrBtn">Continue</button>
@@ -1402,14 +1418,14 @@
         <select id="v-prop" required="{{ true }}">
           <option value="">Select a property</option>
           <optgroup label="España, Manila">
-            <option value="santotomas">Santo Tomas (UST, FEU and UE Manila)</option>
+            <option value="santotomas">The One Santo Tomas (UST, FEU and UE Manila)</option>
           </optgroup>
           <optgroup label="Sampaloc, Manila">
-            <option value="richville">Richville Place (UST, Perpetual Help College Manila and UST Angelicum College)</option>
-            <option value="padrecampa">Padre Campa (FEU, UE Manila and UST)</option>
+            <option value="richville">The One Richville Place (UST, Perpetual Help College Manila and UST Angelicum College)</option>
+            <option value="padrecampa">The One Padre Campa (FEU, UE Manila and UST)</option>
           </optgroup>
           <optgroup label="Dasmariñas, Cavite">
-            <option value="dasmaplace">Dasma Place (UDLS Medical Center and DLS College of Medicine)</option>
+            <option value="dasmaplace">The One Dasma Place (UDLS Medical Center and DLS College of Medicine)</option>
           </optgroup>
         </select>
       </div>
@@ -1626,7 +1642,7 @@ class Component extends DCLogic {
 
   _boot(){
     const ready = document.getElementById('finderResults') && document.getElementById('heroDots')
-      && document.getElementById('msPanel')
+      && document.getElementById('f-loc')
       && document.querySelector('[data-screen="santotomas"]');
     if(!ready){
       if(this._tries++ > 80) return;
@@ -1801,6 +1817,12 @@ class Component extends DCLogic {
     const MAP_SET = [{ src: 'photos/web/sitemap-v2.jpg', title: 'The One Properties map', ratio: '16 / 9' }];
     const openMap = ev => { ev.preventDefault(); lbSet = MAP_SET; openLb(0); };
     q('#mapOpen') && q('#mapOpen').addEventListener('click', openMap);
+    qa('a[href*="google.com/maps"]').forEach(a => a.addEventListener('click', ev => {
+      ev.preventDefault(); ev.stopPropagation();
+      const url = a.href;
+      const w = window.open(url, '_blank', 'noopener');
+      if(!w){ try { window.top.location.href = url; } catch(_) { location.href = url; } }
+    }));
     if(q('#mapImg')){ q('#mapImg').addEventListener('click', openMap); q('#mapImg').addEventListener('keydown', ev => { if(ev.key === 'Enter' || ev.key === ' ') openMap(ev); }); }
     q('#lbPrev').addEventListener('click', () => { lbIdx = (lbIdx - 1 + lbSet.length) % lbSet.length; paintLb(); });
     q('#lbNext').addEventListener('click', () => { lbIdx = (lbIdx + 1) % lbSet.length; paintLb(); });
@@ -1814,78 +1836,19 @@ class Component extends DCLogic {
     }, { passive:true });
 
     /* =============== LOCATION / SCHOOLS MULTI-SELECT =============== */
-    const ms = q('#ms'), msBtn = q('#msBtn'), msPanel = q('#msPanel');
-    const msChips = q('#msChips'), msBtnText = q('#msBtnText');
-    const picked = new Set();
-
-    msPanel.innerHTML = LOCATIONS.map(g =>
-      '<p class="ms-group">' + g.group + '</p>'
-      + g.items.map(it =>
-        '<button class="ms-opt" type="button" role="option" aria-selected="false" aria-pressed="false" data-slug="' + it.slug + '">'
-        + '<span class="ms-box" aria-hidden="true"></span>'
-        + '<span class="ms-txt"><b>' + it.name + '</b><span>(' + it.schools + ')</span></span>'
-        + '</button>'
-      ).join('')
-    ).join('')
-    + '<div class="ms-foot"><button type="button" data-ms="clear">Clear all</button><button type="button" data-ms="done">Done</button></div>';
-
-    const allItems = LOCATIONS.reduce((a,g) => a.concat(g.items), []);
-    const chipFor = slug => (allItems.find(i => i.slug === slug) || {}).chip || slug;
-
-    const paintMs = () => {
-      qa('.ms-opt', msPanel).forEach(b => {
-        const on = picked.has(b.dataset.slug);
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
-        b.setAttribute('aria-selected', on ? 'true' : 'false');
-      });
-      msBtnText.textContent = picked.size === 0
-        ? 'Any location'
-        : (picked.size === 1 ? chipFor(Array.from(picked)[0]) : picked.size + ' locations selected');
-      msChips.innerHTML = Array.from(picked).map(s =>
-        '<span class="ms-chip">' + chipFor(s)
-        + '<button type="button" data-remove="' + s + '" aria-label="Remove ' + chipFor(s) + '">✕</button></span>'
-      ).join('');
-      qa('[data-remove]', msChips).forEach(b => b.addEventListener('click', () => {
-        picked.delete(b.dataset.remove); paintMs(); runFinder();
-      }));
+    const locSel = q('#f-loc');
+    locSel.insertAdjacentHTML('beforeend', LOCATIONS.map(g =>
+      '<optgroup label="' + g.group + '">' + g.items.map(it =>
+        '<option value="' + it.slug + '">The One ' + it.name + '</option>').join('') + '</optgroup>').join(''));
+    const locHint = q('#f-loc-hint');
+    const allLoc = LOCATIONS.reduce((a,g) => a.concat(g.items), []);
+    const paintLocHint = () => {
+      const it = allLoc.find(i => i.slug === locSel.value);
+      locHint.textContent = it ? 'Near ' + it.schools : '';
+      locHint.hidden = !it;
     };
-
-    const placeMs = () => {
-      const r = msBtn.getBoundingClientRect();
-      const gap = 8, margin = 12;
-      const below = window.innerHeight - r.bottom - gap - margin;
-      const above = r.top - gap - margin;
-      const flip = below < 240 && above > below;
-      const space = Math.max(160, flip ? above : below);
-      msPanel.style.left = r.left + 'px';
-      msPanel.style.width = r.width + 'px';
-      msPanel.style.maxHeight = Math.min(space, 420) + 'px';
-      if(flip){ msPanel.style.top = 'auto'; msPanel.style.bottom = (window.innerHeight - r.top + gap) + 'px'; }
-      else { msPanel.style.bottom = 'auto'; msPanel.style.top = (r.bottom + gap) + 'px'; }
-    };
-    const openMs = () => {
-      ms.dataset.open = 'true'; msPanel.hidden = false; msBtn.setAttribute('aria-expanded','true');
-      placeMs();
-    };
-    window.addEventListener('resize', () => { if(!msPanel.hidden) placeMs(); });
-    window.addEventListener('scroll', () => { if(!msPanel.hidden) placeMs(); }, { passive:true });
-    const closeMs = () => { ms.dataset.open = 'false'; msPanel.hidden = true; msBtn.setAttribute('aria-expanded','false'); };
-    msBtn.addEventListener('click', () => { msPanel.hidden ? openMs() : closeMs(); });
-    msPanel.addEventListener('click', e => {
-      const opt = e.target.closest('.ms-opt');
-      if(opt){
-        const s = opt.dataset.slug;
-        picked.has(s) ? picked.delete(s) : picked.add(s);
-        paintMs(); runFinder();
-        return;
-      }
-      const act = e.target.closest('[data-ms]');
-      if(!act) return;
-      if(act.dataset.ms === 'clear'){ picked.clear(); paintMs(); runFinder(); }
-      else { closeMs(); msBtn.focus(); }
-    });
-    doc.addEventListener('click', e => { if(!ms.contains(e.target)) closeMs(); });
-    paintMs();
+    locSel.addEventListener('change', () => { paintLocHint(); runFinder(); });
+    paintLocHint();
 
     /* =============== FINDER =============== */
     const fmt = n => '₱' + n.toLocaleString('en-PH');
@@ -1919,7 +1882,7 @@ class Component extends DCLogic {
     };
     function runFinder(){
       const budget = q('#f-budget').value;
-      renderUnits(UNITS.filter(u => (picked.size === 0 || picked.has(u.slug)) && inBudget(u, budget)));
+      renderUnits(UNITS.filter(u => (locSel.value === 'any' || locSel.value === u.slug) && inBudget(u, budget)));
     }
     q('#finderForm').addEventListener('submit', e => {
       e.preventDefault();
@@ -1960,7 +1923,6 @@ class Component extends DCLogic {
       if(e.key !== 'Escape') return;
       if(!lb.hidden) closeLb();
       else if(!modal.hidden) closeVisit();
-      else if(!msPanel.hidden){ closeMs(); msBtn.focus(); }
       else closeDrawer();
     });
 
